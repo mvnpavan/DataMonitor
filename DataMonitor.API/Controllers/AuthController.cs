@@ -39,7 +39,11 @@ namespace DataMonitor.API.Controllers
 
             var createdUser = await repository.Register(userToCreate, userForRegisterDto.Password);
 
+            // return Ok(new {
+            //     message = "Created User"
+            // });
             return StatusCode(201);
+
         }
 
         [HttpPost("login")]
