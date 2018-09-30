@@ -1,13 +1,12 @@
 package moon.net.datamonitor.ui
 
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.EditText
 import moon.net.datamonitor.R
 import moon.net.datamonitor.base.BaseActivity
-import moon.net.datamonitor.model.User
+import moon.net.datamonitor.model.UserForAuth
 import okhttp3.ResponseBody
 import retrofit2.Response
 
@@ -16,6 +15,7 @@ class UserAuthenticationActivity : BaseActivity<UserAuthenticationPresenter>(),
 
     private var username: EditText? = null
     private var password: EditText? = null
+    public lateinit var token : String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,10 +49,11 @@ class UserAuthenticationActivity : BaseActivity<UserAuthenticationPresenter>(),
     }
 
     fun register(view: View) {
-        presenter.registerUser(User(username = username!!.text.toString(), password = password!!.text.toString()))
+        presenter.registerUser(UserForAuth(username = username!!.text.toString(), password = password!!.text.toString()))
     }
 
     fun login(view: View) {
-        presenter.loginUser(User(username = username!!.text.toString(), password = password!!.text.toString()))
+//        presenter.loginUser(UserForAuth(username = username!!.text.toString(), password = password!!.text.toString()))
+        presenter.fetchMembers()
     }
 }

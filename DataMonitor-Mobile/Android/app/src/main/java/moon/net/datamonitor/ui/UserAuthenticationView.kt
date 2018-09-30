@@ -1,7 +1,6 @@
 package moon.net.datamonitor.ui
 
 import moon.net.datamonitor.base.BaseView
-import moon.net.datamonitor.model.User
 import okhttp3.ResponseBody
 import retrofit2.Response
 

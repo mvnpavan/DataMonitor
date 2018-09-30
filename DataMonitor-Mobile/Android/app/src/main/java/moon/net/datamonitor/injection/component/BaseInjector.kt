@@ -10,13 +10,13 @@ import javax.inject.Singleton
 
 @Singleton
 @Component(modules = [(ContextModule::class), (NetworkModule::class)])
-interface UserAuthenticationInjector {
+interface BaseInjector {
 
     fun inject(userAuthenticationPresenter: UserAuthenticationPresenter)
 
     @Component.Builder
     interface Builder {
-        fun build(): UserAuthenticationInjector
+        fun build(): BaseInjector
 
         fun networkModule(networkModule: NetworkModule): Builder
         fun contextModule(contextModule: ContextModule): Builder
