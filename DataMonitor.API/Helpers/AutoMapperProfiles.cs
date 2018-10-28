@@ -24,6 +24,7 @@ namespace DataMonitor.API.Helpers
                     opt.ResolveUsing(d => d.DateOfBirth.CalculaeAge());
                 });
             CreateMap<Photo, PhotosForDetailDto>();
+            CreateMap<UserForUpdateDto, User>();
         }
         
     }
