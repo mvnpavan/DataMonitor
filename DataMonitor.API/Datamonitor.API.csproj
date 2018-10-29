@@ -12,5 +12,6 @@
     <PackageReference Include="System.Data.Entity.Repository" Version="2.0.0.1"/>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.0-preview2-35157"/>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="4.0.1"/>
+    <PackageReference Include="CloudinaryDotNet" Version="1.3.1"/>
   </ItemGroup>
 </Project>
