@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using DataMonitor.API.Models;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +22,12 @@ namespace DataMonitor.API.Data
         public void Delete<T>(T entity) where T : class
         {
             context.Remove(entity);
+        }
+
+        public async Task<Photo> GetMainPhotoForUser(int userid)
+        {
+            return await context.Photos.Where(u => u.UserId == userid)
+                .FirstOrDefaultAsync(p => p.IsMain);
         }
 
         public async Task<Photo> GetPhoto(int id)

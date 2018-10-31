@@ -7,6 +7,7 @@ import { RouterModule } from '@angular/router';
 import { JwtModule } from '@auth0/angular-jwt';
 import { NgxGalleryModule } from 'ngx-gallery';
 
+
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
 import { AuthService } from './_services/auth.service';
@@ -29,6 +30,8 @@ import { MemberListResolver } from './_resolvers/member-list.resolver';
 import { MembersEditComponent } from './members/members-edit/members-edit.component';
 import { MemberEditResolver } from './_resolvers/member-edit.resolver';
 import { PreventUnsavedChanges } from './_guards/prevent-unsaved-changes.guard';
+import { PhotoEditorComponent } from './members/photo-editor/photo-editor.component';
+import { FileUploadModule } from 'ng2-file-upload';
 
 export function tokenGetter() {
     return localStorage.getItem('token');
@@ -45,7 +48,8 @@ export function tokenGetter() {
       MessagesComponent,
       MembersCardComponent,
       MembersDetailComponent,
-      MembersEditComponent
+      MembersEditComponent,
+      PhotoEditorComponent
    ],
    imports: [
       BrowserModule,
@@ -57,6 +61,7 @@ export function tokenGetter() {
       RouterModule.forRoot(appRoutes),
       TabsModule.forRoot(),
       NgxGalleryModule,
+      FileUploadModule,
       JwtModule.forRoot({
         config: {
             tokenGetter: tokenGetter,
@@ -74,7 +79,7 @@ export function tokenGetter() {
       MemberDetailResolver,
       MemberListResolver,
       MemberEditResolver,
-      PreventUnsavedChanges
+      PreventUnsavedChanges,
    ],
    bootstrap: [
       AppComponent

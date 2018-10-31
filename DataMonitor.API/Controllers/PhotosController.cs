@@ -96,5 +96,72 @@ namespace DataMonitor.API.Controllers
 
             return BadRequest("Could not add the photo");
         }
+
+        [HttpPost("{id}/setMain")]
+        public async Task<IActionResult> SetMainPhoto(int userId, int id)
+        {
+            if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+                return Unauthorized();
+
+            var userFromRepo = await reposiroty.GetUser(userId);
+            
+            if (!userFromRepo.Photos.Any(p => p.Id == id))
+                return Unauthorized();
+
+            var photoFromRepo = await reposiroty.GetPhoto(id);
+
+            if (photoFromRepo.IsMain) 
+                return BadRequest("This is already main photo");
+            
+            var currentMainPhoto = await reposiroty.GetMainPhotoForUser(userId);
+            
+            currentMainPhoto.IsMain = false;
+
+            photoFromRepo.IsMain = true;
+
+            if (await reposiroty.saveAll())
+                return NoContent();
+            
+            return BadRequest("Could not set photo to main");
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeletePhoto(int userId, int id) 
+        {
+            if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+                return Unauthorized();
+
+            var userFromRepo = await reposiroty.GetUser(userId);
+
+            if (!userFromRepo.Photos.Any(p => p.Id == id))
+                return Unauthorized();
+
+            var photoFromRepo = await reposiroty.GetPhoto(id);
+
+            if (photoFromRepo.IsMain) 
+                return BadRequest("You cannot delete your main photo");
+
+            
+            if (photoFromRepo.PublicId != null) 
+            {
+                var deleteParams = new DeletionParams(photoFromRepo.PublicId);
+
+                var result = cloudinary.Destroy(deleteParams);
+
+                if (result.Result == "ok") 
+                {
+                    reposiroty.Delete(photoFromRepo);
+                }
+            } 
+            else 
+            {
+                reposiroty.Delete(photoFromRepo);
+            }
+
+            if (await reposiroty.saveAll())
+                return Ok();
+            
+            return BadRequest("Failed to delete the photo");
+        }
     }
 }

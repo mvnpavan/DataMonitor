@@ -3,6 +3,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using DataMonitor.API.Data;
 using DataMonitor.API.Dtos;
 using DataMonitor.API.Models;
@@ -19,8 +20,10 @@ namespace DataMonitor.API.Controllers
     {
         private readonly IAuthRepository repository;
         private readonly IConfiguration configuration;
-        public AuthController(IAuthRepository repository, IConfiguration configuration)
+        private readonly IMapper mapper;
+        public AuthController(IAuthRepository repository, IConfiguration configuration, IMapper mapper)
         {
+            this.mapper = mapper;
             this.repository = repository;
             this.configuration = configuration;
         }
@@ -77,8 +80,12 @@ namespace DataMonitor.API.Controllers
 
             var token = tockenHandler.CreateToken(tokenDescriptor);
 
-            return Ok(new {
-                token = tockenHandler.WriteToken(token)
+            var user = mapper.Map<UserForListDto>(userFromRepo);
+
+            return Ok(new
+            {
+                token = tockenHandler.WriteToken(token),
+                user
             });
         }
     }

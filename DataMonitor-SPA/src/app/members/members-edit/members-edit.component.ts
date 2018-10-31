@@ -13,6 +13,7 @@ import { AuthService } from '../../_services/auth.service';
 })
 export class MembersEditComponent implements OnInit {
   user: User;
+  photoUrl: string;
   @ViewChild('editForm') editForm: NgForm;
   // Candeactivate for whole window as Angular don't have routes control
   @HostListener('window:beforeunload', ['$event'])
@@ -29,6 +30,7 @@ export class MembersEditComponent implements OnInit {
       this.user = data['user'];
       this.authServcie.loggedIn();
     });
+    this.authServcie.currentPhotoUrl.subscribe(photoUrl => this.photoUrl = photoUrl);
   }
 
   updateUser() {
@@ -39,4 +41,9 @@ export class MembersEditComponent implements OnInit {
       this.alertify.error(error);
     });
   }
+
+  updateMainPhoto(photoUrl) {
+    this.user.photoUrl = photoUrl;
+  }
+
 }

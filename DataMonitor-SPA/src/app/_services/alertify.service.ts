@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
+declare let alertify: any;
 
 
 @Injectable({
@@ -8,6 +9,14 @@ import { ToastrService } from 'ngx-toastr';
 export class AlertifyService {
 
 constructor(private toaster: ToastrService) { }
+
+  confirm(message: string, okCallback: () => any) {
+    alertify.confirm(message, function(e) {
+      if (e) {
+        okCallback();
+      } else {}
+    });
+  }
 
   sucess(message: string) {
     this.toaster.success(message);
