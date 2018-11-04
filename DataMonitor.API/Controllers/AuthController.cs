@@ -35,18 +35,15 @@ namespace DataMonitor.API.Controllers
             if (await repository.UserExist(userForRegisterDto.Username))
                 return BadRequest("Username already exist");
 
-            var userToCreate = new User
-            {
-                Username = userForRegisterDto.Username
-            };
+            var userToCreate = mapper.Map<User>(userForRegisterDto);
 
             var createdUser = await repository.Register(userToCreate, userForRegisterDto.Password);
 
             // return Ok(new {
             //     message = "Created User"
             // });
-            return StatusCode(201);
-
+            var usersToReturn = mapper.Map<UserForDetailDto>(createdUser);
+            return CreatedAtRoute("GetUser", new {Controller = "Users", id = createdUser.Id}, usersToReturn);
         }
 
         [HttpPost("login")]
