@@ -4,11 +4,13 @@ using System.Threading.Tasks;
 using AutoMapper;
 using DataMonitor.API.Data;
 using DataMonitor.API.Dtos;
+using DataMonitor.API.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DataMonitor.API.Controllers
 {
+    [ServiceFilter(typeof(LogUserActivity))]
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
